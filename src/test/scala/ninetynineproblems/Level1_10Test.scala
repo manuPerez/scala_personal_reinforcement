@@ -19,6 +19,27 @@ class Level1_10Test extends FlatSpec with Matchers {
     the [NoSuchElementException] thrownBy {
       lastListElement(Nil)
     } should have message "Bad input"
+  }
 
+  "The penultimate method" should "return last but one element in a list" in {
+    val lastElement = 9
+    val lastButOneElement = 8
+    val list = 0 :: 1 :: 2 :: 3 :: 4 :: 5 :: 6 :: 7 :: lastButOneElement :: lastElement :: Nil
+    val list2 = 0 :: lastButOneElement :: lastElement :: Nil
+    penultimate(list) shouldEqual lastButOneElement
+    penultimate(list2) shouldEqual lastButOneElement
+    noException should be thrownBy penultimate(list)
+  }
+
+  "The penultimate method" should "throw an exception with empty list" in {
+    the [NoSuchElementException] thrownBy {
+      penultimate(Nil)
+    } should have message "Bad input"
+  }
+
+  "The penultimate method" should "throw an exception with list with only one element" in {
+    the [NoSuchElementException] thrownBy {
+      penultimate(0 :: Nil)
+    } should have message "Bad input, list with only one element"
   }
 }
