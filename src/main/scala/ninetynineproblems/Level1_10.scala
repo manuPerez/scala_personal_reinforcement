@@ -1,11 +1,14 @@
 package ninetynineproblems
 
+import scala.annotation.tailrec
+
 object Level1_10 {
 
 //  P01 (*) Find the last element of a list.
 //  Example:
 //    scala> lastListElement(List(1, 1, 2, 3, 5, 8))
 //  res0: Int = 8
+  @tailrec
   def lastListElement[A](ls: List[A]): A = {
     ls match {
       case x :: Nil => x
@@ -18,6 +21,7 @@ object Level1_10 {
 //  Example:
 //    scala> penultimate(List(1, 1, 2, 3, 5, 8))
 //  res0: Int = 5
+  @tailrec
   def penultimate[A](ls: List[A]): A = {
     ls match {
       case x :: y :: Nil => x
