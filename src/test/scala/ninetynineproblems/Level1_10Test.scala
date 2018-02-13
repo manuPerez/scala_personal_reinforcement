@@ -42,4 +42,29 @@ class Level1_10Test extends FlatSpec with Matchers {
       penultimate(0 :: Nil)
     } should have message "Bad input, list with only one element"
   }
+
+  "The nth method" should "return nth element in a list" in {
+    val nthPos = 2
+    val nthValue = 42
+    val list = 0 :: 1 :: nthValue :: 3 :: 4 :: 5 :: 6 :: 7 :: 8 :: 9 :: Nil
+    val list2 = 0 :: 1 :: nthValue :: Nil
+    nth(nthPos,list) shouldEqual nthValue
+    nth(nthPos,list2) shouldEqual nthValue
+    noException should be thrownBy nth(nthPos,list)
+  }
+
+  "The nth method" should "throw an exception with short list" in {
+    the [NoSuchElementException] thrownBy {
+      nth(0,Nil)
+    } should have message "List too short"
+    the [NoSuchElementException] thrownBy {
+      nth(100,1 :: Nil)
+    } should have message "List too short"
+  }
+
+  "The nth method" should "throw an exception with a negative element" in {
+    the [NoSuchElementException] thrownBy {
+      nth(-1,1 :: Nil)
+    } should have message "Element must be greater or equals to 0"
+  }
 }
