@@ -47,4 +47,35 @@ object Level1_10 {
     }
   }
 
+//  P04 (*) Find the number of elements of a list.
+//    Example:
+//    scala> length(List(1, 1, 2, 3, 5, 8))
+//  res0: Int = 6
+  def lengthList[A](ls: List[A]): Int = {
+    @tailrec
+    def lengthRec[A](result:Int, ls: List[A]): Int = {
+      ls match {
+        case Nil => result
+        case x :: xs=> lengthRec(result+1,xs)
+      }
+    }
+    lengthRec(0,ls)
+  }
+
+
+//  P05 (*) Reverse a list.
+//  Example:
+//    scala> reverse(List(1, 1, 2, 3, 5, 8))
+//  res0: List[Int] = List(8, 5, 3, 2, 1, 1)
+  def reverse[A](ls: List[A]): List[A] = {
+    @tailrec
+    def reverseRec[A](result: List[A], ls: List[A]): List[A] = {
+      ls match {
+        case Nil => result
+        case x :: xs=> reverseRec(x :: result,xs)
+      }
+    }
+    reverseRec(Nil,ls)
+  }
+
 }

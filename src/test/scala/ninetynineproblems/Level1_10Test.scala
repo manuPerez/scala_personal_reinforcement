@@ -67,4 +67,25 @@ class Level1_10Test extends FlatSpec with Matchers {
       nth(-1,1 :: Nil)
     } should have message "Element must be greater or equals to 0"
   }
+
+  "The length method" should "return length in a list" in {
+    val length1 = 10
+    val length2 = 3
+    val list = 0 :: 1 :: 2 :: 3 :: 4 :: 5 :: 6 :: 7 :: 8 :: 9 :: Nil
+    val list2 = 0 :: 1 :: 2 :: Nil
+    lengthList(list) shouldEqual length1
+    lengthList(list2) shouldEqual length2
+    lengthList(Nil) shouldEqual 0
+    noException should be thrownBy lengthList(list)
+  }
+
+  "The reverse method" should "return the reversed list" in {
+    val list = 0 :: 1 :: 2 :: 3 :: 4 :: 5 :: 6 :: 7 :: 8 :: 9 :: Nil
+    val listReverse = 9 :: 8 :: 7 :: 6 :: 5 :: 4 :: 3 :: 2 :: 1 :: 0 :: Nil
+    reverse(list) shouldEqual listReverse
+    reverse(listReverse) shouldEqual list
+    reverse(Nil) shouldEqual Nil
+    noException should be thrownBy reverse(list)
+  }
+
 }
