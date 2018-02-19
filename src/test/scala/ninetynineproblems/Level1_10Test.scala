@@ -88,4 +88,16 @@ class Level1_10Test extends FlatSpec with Matchers {
     noException should be thrownBy reverse(list)
   }
 
+  "The isPalindrome method" should "return true if a list is palindrome" in {
+    val listTrue = List(1, 2, 3, 4, 5, 4, 3, 2, 1)
+    val listFalse = List(1, 2, 3, 4, 5, 4, 3, 2, 2)
+    isPalindrome(listTrue) shouldBe true
+    isPalindrome(listFalse) shouldBe false
+  }
+
+  "The flatten method" should "return a list with all elements" in {
+    val listIni = List(List(1, 2, 3), 4, List(5, 6, 7), 8, 9)
+    val listResult = List(1, 2, 3, 4, 5, 6, 7, 8, 9)
+    flatten(listIni) shouldEqual listResult
+  }
 }
