@@ -68,7 +68,7 @@ class Level1_10Test extends FlatSpec with Matchers {
     } should have message "Element must be greater or equals to 0"
   }
 
-  "The length method" should "return length in a list" in {
+  "The lengthList method" should "return length in a list" in {
     val length1 = 10
     val length2 = 3
     val list = 0 :: 1 :: 2 :: 3 :: 4 :: 5 :: 6 :: 7 :: 8 :: 9 :: Nil

@@ -4,7 +4,8 @@ import java.util.NoSuchElementException
 
 import scala.annotation.tailrec
 
-object Level1_10 extends App {
+object Level1_10 {
+
   //  P01 (*) Find the last element of a list.
   //  Example:
   //    scala> lastListElement(List(1, 1, 2, 3, 5, 8))
@@ -94,6 +95,4 @@ object Level1_10 extends App {
       case Nil => Nil
     }
   }
-
-  println(flatten(List(List(1, 1), 4, Nil, List(2,3))))
 }
