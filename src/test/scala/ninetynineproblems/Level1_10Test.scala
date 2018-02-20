@@ -100,4 +100,11 @@ class Level1_10Test extends FlatSpec with Matchers {
     val listResult = List(1, 2, 3, 4, 5, 6, 7, 8, 9)
     flatten(listIni) shouldEqual listResult
   }
+
+  "The removeConsecutiveDuplicates method" should "return a list with repeated elements replaced " +
+    "with a single copy of the element" in {
+    val listIni = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
+    val listResult =  List('a, 'b, 'c, 'a, 'd, 'e)
+    removeConsecutiveDuplicates(listIni) shouldEqual listResult
+  }
 }
