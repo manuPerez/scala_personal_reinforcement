@@ -4,7 +4,7 @@ import java.util.NoSuchElementException
 
 import scala.annotation.tailrec
 
-object Level1_10 {
+object Level1_10 extends App {
 
   //  P01 (*) Find the last element of a list.
   //  Example:
@@ -110,4 +110,46 @@ object Level1_10 {
       case x :: xs if(!xs.head.equals(x)) => x :: removeConsecutiveDuplicates(xs)
     }
   }
+
+  // P09 (**) Pack consecutive duplicates of list elements into sublists.
+  // If a list contains repeated elements they should be placed in separate sublists.
+  // Example:
+  //   scala> pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+  // res0: List[List[Symbol]] = List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e))
+//  def pack[A](ls: List[A]): List[List[A]] = {
+    def contains[A](ls: List[A], lsaux: List[List[A]]): List[List[A]] = {
+      ls match {
+        case Nil =>
+          lsaux
+        case x :: Nil if(lsaux.last.last.equals(x)) =>
+          lsaux.diff(List(lsaux.last)) ::: List(x :: lsaux.last)
+        case x :: Nil if(!lsaux.last.last.equals(x)) =>
+          List(x) :: lsaux
+        case x :: xs if (x.equals(xs.head) && lsaux.last.isEmpty) =>
+          val ls2 = List(List(x, xs.head))
+          contains(xs.tail, ls2)
+        case x :: xs if (x.equals(xs.head) && lsaux.last.head.equals(x)) =>
+          val ls2 = lsaux.diff(List(lsaux.last)) ::: List(x :: xs.head :: lsaux.last)
+          contains(xs.tail, ls2)
+        case x :: xs if (x.equals(xs.head) && !lsaux.last.head.equals(x)) =>
+          val ls2 = List(x, xs.head) :: lsaux
+          contains(xs.tail, ls2)
+        case x :: xs if (!x.equals(xs.head) && lsaux.last.head.equals(x)) =>
+          val ls2 = List(x) :: lsaux
+          contains(xs, ls2)
+        case x :: xs if (!x.equals(xs.head) && !lsaux.last.head.equals(x)) =>
+          val ls2 = List(x) :: lsaux
+          contains(xs, ls2)
+      }
+    }
+    val list = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
+    println(contains(list, List(List())))
+//    ls match {
+//      case Nil => Nil
+//      case x :: Nil => List(List(x))
+//      case x :: xs => contains(contains(x, xs).tail.head.head, contains(x, xs).head)
+//    }
+//  }
+
+
 }
