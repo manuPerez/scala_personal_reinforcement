@@ -41,6 +41,7 @@ object Level1_10 {
   //  res0: Int = 2
   def nth[A](pos: Int, ls: List[A]): A = {
     if (pos < 0) throw new NoSuchElementException("Element must be greater or equals to 0")
+
     def nth2[A](l: List[A]): A = {
       l match {
         case x :: Nil if (pos == ls.length) => x
@@ -50,6 +51,7 @@ object Level1_10 {
         case Nil => throw new NoSuchElementException("List too short")
       }
     }
+
     nth2(ls)
   }
 
@@ -82,7 +84,7 @@ object Level1_10 {
   //    scala> isPalindrome(List(1, 2, 3, 2, 1))
   //  res0: Boolean = true
   def isPalindrome[A](ls: List[A]): Boolean =
-    ls == reverse(ls)
+  ls == reverse(ls)
 
   //  P07 (**) Flatten a nested list structure.
   //  Example:
@@ -106,8 +108,28 @@ object Level1_10 {
     ls match {
       case Nil => Nil
       case x :: Nil => List(x)
-      case x :: xs if(xs.head.equals(x)) => removeConsecutiveDuplicates(xs)
-      case x :: xs if(!xs.head.equals(x)) => x :: removeConsecutiveDuplicates(xs)
+      case x :: xs if (xs.head.equals(x)) => removeConsecutiveDuplicates(xs)
+      case x :: xs if (!xs.head.equals(x)) => x :: removeConsecutiveDuplicates(xs)
     }
+  }
+
+  // P09 (**) Pack consecutive duplicates of list elements into sublists.
+  // If a list contains repeated elements they should be placed in separate sublists.
+  // Example:
+  //   scala> pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
+  // res0: List[List[Symbol]] = List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e))
+  def pack[A](ls: List[A]): List[List[A]] = {
+    def prepacking[A](elems: List[List[A]], ls: List[A]): List[List[A]] = {
+        ls match {
+          case Nil =>
+            elems
+          case x :: xs if (elems.head.contains(x)) =>
+            prepacking(((x :: elems.head): List[A]) :: elems.tail, xs)
+          case x :: xs if (!elems.head.contains(x)) =>
+            prepacking(List(x) :: elems, xs)
+        }
+    }
+    if (ls.isEmpty) List(ls)
+    else reverse(prepacking(List(List(ls.head)), ls.tail))
   }
 }
