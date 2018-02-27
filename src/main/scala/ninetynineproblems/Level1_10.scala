@@ -4,7 +4,7 @@ import java.util.NoSuchElementException
 
 import scala.annotation.tailrec
 
-object Level1_10 extends App {
+object Level1_10 {
 
   //  P01 (*) Find the last element of a list.
   //  Example:
@@ -41,6 +41,7 @@ object Level1_10 extends App {
   //  res0: Int = 2
   def nth[A](pos: Int, ls: List[A]): A = {
     if (pos < 0) throw new NoSuchElementException("Element must be greater or equals to 0")
+
     def nth2[A](l: List[A]): A = {
       l match {
         case x :: Nil if (pos == ls.length) => x
@@ -50,6 +51,7 @@ object Level1_10 extends App {
         case Nil => throw new NoSuchElementException("List too short")
       }
     }
+
     nth2(ls)
   }
 
@@ -82,7 +84,7 @@ object Level1_10 extends App {
   //    scala> isPalindrome(List(1, 2, 3, 2, 1))
   //  res0: Boolean = true
   def isPalindrome[A](ls: List[A]): Boolean =
-    ls == reverse(ls)
+  ls == reverse(ls)
 
   //  P07 (**) Flatten a nested list structure.
   //  Example:
@@ -106,8 +108,8 @@ object Level1_10 extends App {
     ls match {
       case Nil => Nil
       case x :: Nil => List(x)
-      case x :: xs if(xs.head.equals(x)) => removeConsecutiveDuplicates(xs)
-      case x :: xs if(!xs.head.equals(x)) => x :: removeConsecutiveDuplicates(xs)
+      case x :: xs if (xs.head.equals(x)) => removeConsecutiveDuplicates(xs)
+      case x :: xs if (!xs.head.equals(x)) => x :: removeConsecutiveDuplicates(xs)
     }
   }
 
@@ -116,40 +118,18 @@ object Level1_10 extends App {
   // Example:
   //   scala> pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e))
   // res0: List[List[Symbol]] = List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e))
-//  def pack[A](ls: List[A]): List[List[A]] = {
-    def contains[A](ls: List[A], lsaux: List[List[A]]): List[List[A]] = {
-      ls match {
-        case Nil =>
-          lsaux
-        case x :: Nil if(lsaux.last.last.equals(x)) =>
-          lsaux.diff(List(lsaux.last)) ::: List(x :: lsaux.last)
-        case x :: Nil if(!lsaux.last.last.equals(x)) =>
-          List(x) :: lsaux
-        case x :: xs if (x.equals(xs.head) && lsaux.last.isEmpty) =>
-          val ls2 = List(List(x, xs.head))
-          contains(xs.tail, ls2)
-        case x :: xs if (x.equals(xs.head) && lsaux.last.head.equals(x)) =>
-          val ls2 = lsaux.diff(List(lsaux.last)) ::: List(x :: xs.head :: lsaux.last)
-          contains(xs.tail, ls2)
-        case x :: xs if (x.equals(xs.head) && !lsaux.last.head.equals(x)) =>
-          val ls2 = List(x, xs.head) :: lsaux
-          contains(xs.tail, ls2)
-        case x :: xs if (!x.equals(xs.head) && lsaux.last.head.equals(x)) =>
-          val ls2 = List(x) :: lsaux
-          contains(xs, ls2)
-        case x :: xs if (!x.equals(xs.head) && !lsaux.last.head.equals(x)) =>
-          val ls2 = List(x) :: lsaux
-          contains(xs, ls2)
-      }
+  def pack[A](ls: List[A]): List[List[A]] = {
+    def prepacking[A](elems: List[List[A]], ls: List[A]): List[List[A]] = {
+        ls match {
+          case Nil =>
+            elems
+          case x :: xs if (elems.head.contains(x)) =>
+            prepacking(((x :: elems.head): List[A]) :: elems.tail, xs)
+          case x :: xs if (!elems.head.contains(x)) =>
+            prepacking(List(x) :: elems, xs)
+        }
     }
-    val list = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
-    println(contains(list, List(List())))
-//    ls match {
-//      case Nil => Nil
-//      case x :: Nil => List(List(x))
-//      case x :: xs => contains(contains(x, xs).tail.head.head, contains(x, xs).head)
-//    }
-//  }
-
-
+    if (ls.isEmpty) List(ls)
+    else reverse(prepacking(List(List(ls.head)), ls.tail))
+  }
 }
