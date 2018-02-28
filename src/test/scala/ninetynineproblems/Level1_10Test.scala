@@ -137,4 +137,25 @@ class Level1_10Test extends FlatSpec with Matchers {
     encode(listIniOne) shouldEqual listResultOne
     encode(listIniTwo) shouldEqual listResultTwo
   }
+
+  "The encodeModified method " should " return a list of encoded tuples (N, E) " +
+    "where N is the number of duplicates of the element E, but if N == 1 it returns " +
+    "only E" in {
+    val listIniOne = List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)
+    val listResultOne = List((4,'a), 'b, (2,'c), (2,'a), 'd, (4,'e))
+    val listIniTwo = List()
+    val listResultTwo = List()
+    val listIniThree = List('a, 'b, 'c, 'c, 'e)
+    val listResultThree = List('a, 'b, (2,'c), 'e)
+    val listIniFour = List('a, 'e)
+    val listResultFour = List('a, 'e)
+    val listIniFive = List('a)
+    val listResultFive = List('a)
+
+    encodeModified(listIniOne) shouldEqual listResultOne
+    encodeModified(listIniTwo) shouldEqual listResultTwo
+    encodeModified(listIniThree) shouldEqual listResultThree
+    encodeModified(listIniFour) shouldEqual listResultFour
+    encodeModified(listIniFive) shouldEqual listResultFive
+  }
 }
